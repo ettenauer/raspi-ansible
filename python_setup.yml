@@ -44,12 +44,12 @@
       state: present
 
   - name: Install Python using pyenv
-    become: true
     environment:
       PATH: "{{ ansible_env.PATH }}:{{ ansible_user_dir }}/.pyenv/bin"
     when: python3_pyenv != None
     block:
       - name: Create download directory
+        become: true
         file:
           path: "{{ python3_tmpdir }}"
           state: directory
