@@ -8,101 +8,101 @@
     python3_local: "{{ ansible_user_dir}}/.local/bin"
     python3_pyenv: "3.9.4"
 
-tasks:
-- name: Install requirements for package install
-  become: true
-  when: python3_pyenv == None
-  package:
-    name:
-      - python3-pip
-      - python3-virtualenv
-      - python3-dev
-      - virtualenv
-    state: present
-
-- name: Install system packages required for pyenv
-  become: true
-  when: python3_pyenv != None
-  package:
-    name:
-      - curl
-      - gcc
-      - git
-      - libbz2-dev
-      - libreadline-dev
-      - libssl-dev
-      - libsqlite3-dev
-      - make
-      - zlib1g-dev
-    state: present
-
-- name: Install Python using pyenv
-  environment:
-    PATH: "{{ ansible_env.PATH }}:{{ ansible_user_dir }}/.pyenv/bin"
-  when: python3_pyenv != None
-  block:
-    - name: Create download directory
-      file:
-        path: "{{ python3_tmpdir }}"
-        state: directory
-        mode: 0600
-      changed_when: false  # tmpdir role removes directory automatically
-
-    - name: Install pyenv
-      block:
-        - name: Download pyenv installer
-          get_url:
-            url: https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer
-            dest: "{{ python3_tmpdir }}"
-          changed_when: false  # temporary directory is removed when play ends
-
-        - name: Run pyenv installer
-          command: "bash pyenv-installer"
-          args:
-            chdir: "{{ python3_tmpdir }}"
-            creates: "{{ ansible_user_dir }}/.pyenv"
-
-        - name: Update login file
-          blockinfile:
-            path: "{{ python3_bashrc }}"
-            create: true
-            block: |
-              export PATH="{{ ansible_user_dir }}/.pyenv/bin:$PATH"
-              eval "$(pyenv init -)"
-              eval "$(pyenv virtualenv-init -)"
-            mode: 0644
-
-        - name: Update pyenv
-          command: pyenv update
-
-    - name: Install Python
-      block:
-        - name: Install Python
-          command: "pyenv install {{ python3_pyenv }}"
-          args:
-            creates: "{{ ansible_user_dir }}/.pyenv/versions/{{ python3_pyenv }}"
-
-        - name: Execute pyenv rehash
-          command: "pyenv rehash"
-
-        - name: Define python3 command
-          set_fact:  # can't rely on changes to $PATH yet
-            python3_command: "{{ ansible_user_dir }}/.pyenv/shims/{{ python3_command }}"
-
-    - name: install/upgrade utilities
-      become: true
-      command: "{{ python3_command }} -m pip install --upgrade {{ item }}"
-      with_items:
-        - pip
+  tasks:
+  - name: Install requirements for package install
+    become: true
+    when: python3_pyenv == None
+    package:
+      name:
+        - python3-pip
+        - python3-virtualenv
+        - python3-dev
         - virtualenv
-      environment:
-        PYENV_VERSION: "{{ python3_pyenv }}"
+      state: present
 
-    - name: Add local Python path to login file
-      lineinfile:
-        line: "export PATH={{ python3_local }}:$PATH"
-        path: "{{ python3_bashrc }}"
-        create: true
-        state: present
-        mode: 0644
-      become: true
+  - name: Install system packages required for pyenv
+    become: true
+    when: python3_pyenv != None
+    package:
+      name:
+        - curl
+        - gcc
+        - git
+        - libbz2-dev
+        - libreadline-dev
+        - libssl-dev
+        - libsqlite3-dev
+        - make
+        - zlib1g-dev
+      state: present
+
+  - name: Install Python using pyenv
+    environment:
+      PATH: "{{ ansible_env.PATH }}:{{ ansible_user_dir }}/.pyenv/bin"
+    when: python3_pyenv != None
+    block:
+      - name: Create download directory
+        file:
+          path: "{{ python3_tmpdir }}"
+          state: directory
+          mode: 0600
+        changed_when: false  # tmpdir role removes directory automatically
+
+      - name: Install pyenv
+        block:
+          - name: Download pyenv installer
+            get_url:
+              url: https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer
+              dest: "{{ python3_tmpdir }}"
+            changed_when: false  # temporary directory is removed when play ends
+
+          - name: Run pyenv installer
+            command: "bash pyenv-installer"
+            args:
+              chdir: "{{ python3_tmpdir }}"
+              creates: "{{ ansible_user_dir }}/.pyenv"
+
+          - name: Update login file
+            blockinfile:
+              path: "{{ python3_bashrc }}"
+              create: true
+              block: |
+                export PATH="{{ ansible_user_dir }}/.pyenv/bin:$PATH"
+                eval "$(pyenv init -)"
+                eval "$(pyenv virtualenv-init -)"
+              mode: 0644
+
+          - name: Update pyenv
+            command: pyenv update
+
+      - name: Install Python
+        block:
+          - name: Install Python
+            command: "pyenv install {{ python3_pyenv }}"
+            args:
+              creates: "{{ ansible_user_dir }}/.pyenv/versions/{{ python3_pyenv }}"
+
+          - name: Execute pyenv rehash
+            command: "pyenv rehash"
+
+          - name: Define python3 command
+            set_fact:  # can't rely on changes to $PATH yet
+              python3_command: "{{ ansible_user_dir }}/.pyenv/shims/{{ python3_command }}"
+
+      - name: install/upgrade utilities
+        become: true
+        command: "{{ python3_command }} -m pip install --upgrade {{ item }}"
+        with_items:
+          - pip
+          - virtualenv
+        environment:
+          PYENV_VERSION: "{{ python3_pyenv }}"
+
+      - name: Add local Python path to login file
+        lineinfile:
+          line: "export PATH={{ python3_local }}:$PATH"
+          path: "{{ python3_bashrc }}"
+          create: true
+          state: present
+          mode: 0644
+        become: true
