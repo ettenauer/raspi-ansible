@@ -1,28 +1,28 @@
 ---
-- name: Update web servers
+- name: Update os
   hosts: raspi
   user: ubuntu
   become: yes
 
   tasks:
-  - name: Run the equivalent of "apt-get update" as a separate step
+  - name: apt-get update
     apt:
       update_cache: true
       force_apt_get: yes
       cache_valid_time: 3600
 
-  - name: Update all packages to the latest version
+  - name: update all packages 
     apt:
       upgrade: dist
       force_apt_get: yes
 
-  - name: Check if a reboot is needed on all servers
+  - name: check if a reboot is needed
     register: reboot_required_file
     stat: path=/var/run/reboot-required get_md5=no
 
-  - name: Reboot the box if kernel updated
+  - name: reboot the box if kernel updated
     reboot:
-      msg: "Reboot initiated by Ansible for kernel updates"
+      msg: "reboot initiated by Ansible for kernel updates"
       connect_timeout: 5
       reboot_timeout: 300
       pre_reboot_delay: 0
