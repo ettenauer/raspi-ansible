@@ -1,0 +1,4 @@
+  - name: test
+    hosts: raspi
+    tasks:
+      - debug: msg="Ansible is working!"
