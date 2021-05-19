@@ -3,23 +3,23 @@
   hosts: raspi
   remote_user: ubuntu
 
-tasks:
-- name: Run the equivalent of "apt-get update" as a separate step
+  tasks:
+  - name: Run the equivalent of "apt-get update" as a separate step
     apt:
       update_cache: true
       force_apt_get: yes
       cache_valid_time: 3600
 
-- name: Update all packages to the latest version
+  - name: Update all packages to the latest version
     apt:
       upgrade: dist
       force_apt_get: yes
 
-- name: Check if a reboot is needed on all servers
+  - name: Check if a reboot is needed on all servers
     register: reboot_required_file
     stat: path=/var/run/reboot-required get_md5=no
 
-- name: Reboot the box if kernel updated
+  - name: Reboot the box if kernel updated
     reboot:
       msg: "Reboot initiated by Ansible for kernel updates"
       connect_timeout: 5
