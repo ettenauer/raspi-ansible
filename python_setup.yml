@@ -2,13 +2,19 @@
 - name: Python Playbook
   hosts: raspi
   vars:
-    python3_tmpdir: "{{ tmpdir_path }}/python3"
+    python3_tmpdir: "{{ temp_dir.path }}/python3"
     python3_command: python3
     python3_bashrc: "{{ ansible_user_dir}}/.bash_profile"
     python3_local: "{{ ansible_user_dir}}/.local/bin"
     python3_pyenv: "3.9.4"
 
   tasks:
+  - name: Ensure a temporary directory for download exists
+    tempfile:
+      state: directory
+      suffix: my_download
+    register: temp_dir
+
   - name: Install requirements for package install
     become: true
     when: python3_pyenv == None
