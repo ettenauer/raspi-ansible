@@ -1,7 +1,8 @@
 ---
 - name: Update web servers
   hosts: raspi
-  remote_user: root
+  user: ubuntu
+  sudo: yes
 
   tasks:
   - name: Run the equivalent of "apt-get update" as a separate step
