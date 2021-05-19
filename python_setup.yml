@@ -49,7 +49,7 @@
     when: python3_pyenv != None
     block:
       - name: Create download directory
-        become: true
+        become: yes
         file:
           path: "{{ python3_tmpdir }}"
           state: directory
@@ -59,7 +59,7 @@
       - name: Install pyenv
         block:
           - name: Download pyenv installer
-            become: true
+            become: yes
             get_url:
               url: https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer
               dest: "{{ python3_tmpdir }}"
@@ -67,6 +67,8 @@
 
           - name: Run pyenv installer
             command: "bash pyenv-installer"
+            become: yes
+            become_user: ubuntu
             args:
               chdir: "{{ python3_tmpdir }}"
               creates: "{{ ansible_user_dir }}/.pyenv"
