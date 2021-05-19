@@ -59,6 +59,7 @@
       - name: Install pyenv
         block:
           - name: Download pyenv installer
+            become: true
             get_url:
               url: https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer
               dest: "{{ python3_tmpdir }}"
