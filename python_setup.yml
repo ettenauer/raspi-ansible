@@ -1,6 +1,7 @@
 ---
 - name: Python Playbook
   hosts: raspi
+  user: ubuntu
   vars:
     python3_tmpdir: "{{ temp_dir.path }}/python3"
     python3_command: python3
