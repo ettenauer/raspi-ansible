@@ -1,0 +1,26 @@
+- name: update pw
+  hosts: raspi
+  remote_user: pi
+  become_method: sudo
+  vars_prompt:
+      - name: new_password
+        prompt: "Enter the password you would like to use for the user pi"
+        confirm: yes
+
+- name: Run the equivalent of "apt-get update" as a separate step
+    apt:
+      update_cache: true
+      cache_valid_time: 3600
+
+- name: Update all packages to the latest version
+    apt:
+      upgrade: dist
+
+- name: Set authorized key for user root copying it from current user
+  hosts: all
+  tasks:
+  - name: Install ssh-key
+    authorized_key:
+      user: pi
+      state: present
+      key: "[ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') ]]"
