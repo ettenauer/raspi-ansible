@@ -5,7 +5,7 @@
   vars:
     dotnet_install_url: "https://dot.net/v1/dotnet-install.sh"
     install_tmpdir: "{{ temp_dir.path }}/dotnet_install"
-    dotnet_version: "5"
+    dotnet_version: "5.0"
     dotnet_install_dir: "/usr/share/"
     dotnet_bashrc: "{{ ansible_user_dir }}/.bash_profile"
 
