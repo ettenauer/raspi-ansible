@@ -1,0 +1,13 @@
+---
+- name: Install .net SDK
+  hosts: raspi
+  user: ubuntu
+  become: true
+
+  tasks:
+  - name: Install DotNetCore
+    snap:
+      name: dotnet-sdk 
+      channel: 5.0
+      classic: yes
+      state: present
