@@ -30,6 +30,7 @@
         changed_when: false  # temporary directory is removed when play ends
 
       - name: run dotnet install
+        become: true
         shell: "bash dotnet-install.sh -c {{dotnet_version}} --install-dir {{dotnet_install_dir}}"
         args:
           chdir: "{{ install_tmpdir }}"
