@@ -31,7 +31,6 @@
 
       - name: run dotnet install
         shell: "bash dotnet-install.sh -c {{dotnet_version}} --install-dir {{dotnet_install_dir}}"
-        become: true
         args:
           chdir: "{{ install_tmpdir }}"
       
