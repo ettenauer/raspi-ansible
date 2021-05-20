@@ -11,3 +11,6 @@
       channel: 5.0/edge
       classic: yes
       state: present
+
+  - name: Set alias dotnet-sdk.dotnet dotnet
+    command: "snap alias dotnet-sdk.dotnet dotnet"
