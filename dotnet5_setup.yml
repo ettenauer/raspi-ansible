@@ -8,6 +8,6 @@
   - name: Install DotNetCore
     snap:
       name: dotnet-sdk 
-      channel: 5.0
+      channel: 5.0/stable
       classic: yes
       state: present
