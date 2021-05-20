@@ -26,7 +26,7 @@
       - name: download dotnet installer
         get_url:
           url: "{{dotnet_install_url}}"
-          dest: "{{ python3_tmpdir }}"
+          dest: "{{ install_tmpdir }}"
         changed_when: false  # temporary directory is removed when play ends
 
       - name: run dotnet install
