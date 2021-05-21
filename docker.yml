@@ -42,8 +42,16 @@
       - name: change permission
         become: true
         shell: "usermod -aG docker $USER"
-
-      - name: reload group
+      
+      - name: install pip
         become: true
-        shell: "newgrp docker"
+        apt:
+          name: python3-pip
+          update-cache: yes
+          state: present
+      
+      - name: install docker-compose
+        apt:
+        shell: "pip3 install docker-compose"
+ 
 
