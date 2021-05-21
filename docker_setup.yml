@@ -1,0 +1,42 @@
+---
+- name: Install Docker
+  hosts: raspi
+  user: ubuntu
+  vars:
+    docker_install_url: "https://get.docker.com"
+    install_tmpdir: "{{ temp_dir.path }}/dotnet_install"
+    docker_bashrc: "{{ ansible_user_dir }}/.bash_profile"
+
+  tasks:
+      - name: ensure a temporary directory path
+        tempfile:
+          state: directory
+          suffix: my_download
+        register: temp_dir
+
+      - name: create download directory
+        file:
+          path: "{{ install_tmpdir }}"
+          state: directory
+          mode: 0777
+        changed_when: false  # tmpdir role removes directory automatically
+
+      - name: download docker installer
+        get_url:
+          url: "{{docker_install_url}}"
+          dest: "{{ install_tmpdir }}/get-docker.sh"
+        changed_when: false  # temporary directory is removed when play ends
+
+      - name: run docker install
+        become: true
+        shell: "bash get-docker.sh"
+        args:
+          chdir: "{{ install_tmpdir }}"
+      
+      - name: change permission
+        become: true
+        shell: "usermod -aG docker ubuntu"
+
+      - name: add group
+        become: true
+        shell: "sudo groupadd docker"
