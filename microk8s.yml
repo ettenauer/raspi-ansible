@@ -26,5 +26,6 @@
       - name: change permission
         become: true
         shell: "chown -f -R ubuntu ~/.kube"
+        warn: false
 
 
