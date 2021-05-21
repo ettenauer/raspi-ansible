@@ -33,10 +33,17 @@
         args:
           chdir: "{{ install_tmpdir }}"
       
+      - name: add group docker
+        become: true
+        group:
+          name: docker
+          state: present
+
       - name: change permission
         become: true
-        shell: "usermod -aG docker ubuntu"
+        shell: "usermod -aG docker $USER"
 
-      - name: add group
+      - name: reload group
         become: true
-        shell: "sudo groupadd docker"
+        shell: "newgrp docker"
+
