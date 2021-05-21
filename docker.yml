@@ -52,6 +52,6 @@
       
       - name: install docker-compose
         apt:
-        shell: "pip3 install docker-compose"
+          shell: "pip3 install docker-compose"
  
 
