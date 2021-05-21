@@ -1,0 +1,19 @@
+---
+- name: create docker daemon.json
+  hosts: raspi
+  user: ubuntu
+  vars:
+    docker_dir: "/etc/docker"
+    docker_insecure_registries: "localhost:5000"
+  
+  tasks:
+    - name: create deamon.json file
+      copy:
+        dest: "{{docker_dir}}/daemon.json"
+        group: docker
+        mode: '1777'
+        content: |
+        {
+          "insecure-registries" : [{{docker_insecure_registries}}]
+        }
+        
