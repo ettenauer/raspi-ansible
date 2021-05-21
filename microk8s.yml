@@ -18,5 +18,13 @@
       - name: configure firewall 2
         become: true
         shell: "ufw default allow routed"
-        
+
+      - name: change permission
+        become: true
+        shell: "usermod -aG microk8s $USER"
+      
+      - name: change permission
+        become: true
+        shell: "chown -f -R ubuntu ~/.kube"
+
 
