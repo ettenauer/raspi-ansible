@@ -1,0 +1,22 @@
+- name: Install Docker
+  hosts: raspi
+  user: ubuntu
+
+  tasks:
+      - name: install microk8s with snap
+        become: true
+        snap:
+          name: microk8s
+          channel: latest/stable
+          state: present
+          classic: true
+
+      - name: configure firewall 1
+        become: true
+        shell: "ufw allow in on cni0 && sudo ufw allow out on cni0"
+
+      - name: configure firewall 2
+        become: true
+        shell: "ufw default allow routed"
+        
+
