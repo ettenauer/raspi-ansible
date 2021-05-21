@@ -8,6 +8,7 @@
   
   tasks:
     - name: create deamon.json file
+      become: true
       copy:
         dest: "{{docker_dir}}/daemon.json"
         group: docker
