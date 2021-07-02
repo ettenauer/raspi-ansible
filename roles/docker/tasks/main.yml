@@ -1,0 +1,50 @@
+---
+- name: docker - ensure a temporary directory path
+  tempfile:
+    state: directory
+    suffix: my_download
+  register: temp_dir
+
+- name: docker - create download directory
+  file:
+    path: "{{ docker_tmpdir }}"
+    state: directory
+    mode: 0777
+  changed_when: false  # tmpdir role removes directory automatically
+
+- name: docker - download installer
+  get_url:
+    url: "{{docker_install_url}}"
+    dest: "{{ docker_tmpdir }}/get-docker.sh"
+  changed_when: false  # temporary directory is removed when play ends
+
+- name: run docker install
+  become: true
+  shell: "bash get-docker.sh"
+  args:
+    chdir: "{{ docker_tmpdir }}"
+      
+- name: add group docker
+  become: true
+  group:
+    name: docker
+    state: present
+
+- name: change permission
+  become: true
+  shell: "usermod -aG docker $USER"
+      
+- name: install pip
+  become: true
+  apt:
+    name: python3-pip
+    update-cache: yes
+    state: present
+      
+- name: install docker-compose
+  become: true
+  pip:
+    name: docker-compose
+          
+ 
+

@@ -1,0 +1,9 @@
+---
+- name: deamon create deamon.json file
+  become: true
+  copy:
+    dest: "{{docker_dir}}/daemon.json"
+    group: docker
+    mode: '1777'
+    force: true
+    content: "{ \"insecure-registries\" : [{{docker_insecure_registries}}] }"

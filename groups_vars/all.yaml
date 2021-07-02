@@ -1,0 +1,16 @@
+---
+# docker install settings
+docker_install_url: "https://get.docker.com"
+docker_tmpdir: "{{ temp_dir.path }}/docker_install"
+docker_bashrc: "{{ ansible_user_dir }}/.bash_profile"
+
+# docker daemon install settings
+docker_dir: "/etc/docker"
+docker_insecure_registries: "localhost:5000"
+
+# dotnet install settings
+dotnet_install_url: "https://dot.net/v1/dotnet-install.sh"
+dottnet_install_tmpdir: "{{ temp_dir.path }}/dotnet_install"
+dotnet_version: "5.0"
+dotnet_install_dir: "/usr/share/"
+dotnet_bashrc: "{{ ansible_user_dir }}/.bash_profile"

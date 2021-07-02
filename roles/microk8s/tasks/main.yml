@@ -1,0 +1,27 @@
+---
+- name: install microk8s with snap
+  become: true
+  snap:
+    name: microk8s
+    channel: latest/stable
+    state: present
+    classic: true
+
+ - name: microk8s configure firewall 1
+   become: true
+   shell: "ufw allow in on cni0 && sudo ufw allow out on cni0"
+
+- name: microk8s configure firewall 2
+  become: true
+  shell: "ufw default allow routed"
+
+- name: microk8s change permission
+  become: true
+  shell: "usermod -aG microk8s $USER"
+      
+- name: microk8s change permission
+  become: true
+  shell: "chown -f -R ubuntu ~/.kube"
+  warn: false
+
+

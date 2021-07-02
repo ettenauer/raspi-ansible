@@ -1,0 +1,24 @@
+---
+- name: apt-get update
+  apt:
+    update_cache: true
+    force_apt_get: yes
+    cache_valid_time: 3600
+  become: yes
+
+- name: update all packages 
+  apt:
+    upgrade: dist
+    force_apt_get: yes
+  become: yes
+
+- name: reboot
+  reboot:
+    msg: "reboot initiated by Ansible for kernel updates"
+    connect_timeout: 5
+    reboot_timeout: 300
+    pre_reboot_delay: 0
+    post_reboot_delay: 30
+    test_command: uptime
+  become: yes
+      

@@ -1,0 +1,8 @@
+---
+- name: Install defaults
+  hosts: raspi
+  remote_user: ubuntu
+
+  roles:
+    - docker
+    - os_upgrade

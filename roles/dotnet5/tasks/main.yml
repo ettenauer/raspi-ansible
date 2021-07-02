@@ -1,0 +1,34 @@
+---
+- name: dotnet ensure a temporary directory path
+  tempfile:
+    state: directory
+    suffix: my_download
+  register: temp_dir
+
+- name: dotnet create download directory
+  file:
+    path: "{{ dotnet_install_tmpdir }}"
+    state: directory
+    mode: 0777
+  changed_when: false  # tmpdir role removes directory automatically
+
+- name: dotnet download installer
+  get_url:
+    url: "{{dotnet_install_url}}"
+    dest: "{{ install_tmpdir }}"
+  changed_when: false  # temporary directory is removed when play ends
+
+- name: dotnet run install
+  become: true
+    shell: "bash dotnet-install.sh -c {{dotnet_version}} --install-dir {{dotnet_install_dir}}"
+    args:
+      chdir: "{{ install_tmpdir }}"
+      
+- name: Add /usr/share/dotnet to PATH 
+  lineinfile:
+    line: "export PATH={{ dotnet_install_dir }}:$PATH"
+    path: "{{ dotnet_bashrc }}"
+    create: true
+    state: present
+    mode: 0644
+  become: true
