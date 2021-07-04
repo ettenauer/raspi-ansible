@@ -26,5 +26,5 @@ set up raspberry pi with ansible playbooks
 ## deploy ansible playbooks
 * git pull https://github.com/ettenauer/raspi-ansible
 * navigate to folder
-* ansible all -i devices -m ping -> verify connectivity
+* ansible all -i devices -u pi -m ping -> verify connectivity
 * ansible-playbook 
