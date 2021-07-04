@@ -1,0 +1,8 @@
+---
+- name: Install devices with raspberrypi model zero setup
+  hosts: all
+  remote_user: pi
+
+  roles:
+    - docker
+    - os_upgrade

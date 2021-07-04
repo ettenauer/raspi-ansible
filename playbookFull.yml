@@ -1,0 +1,10 @@
+---
+- name: Install devices with raspberrypi model 4 setup
+  hosts: all
+  remote_user: pi
+
+  roles:
+    - docker
+    - dotnet5
+    - microk8s
+    - os_upgrade
