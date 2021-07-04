@@ -1,5 +1,5 @@
 # raspi-ansible
-set up raspberry with Ansible 
+set up raspberry pi with ansible playbooks
 
 ## install headless raspi 
 * download https://www.raspberrypi.org/software/
