@@ -1,5 +1,5 @@
 # raspi-ansible
-set up raspberry pi with ansible playbooks
+ansible playbooks to set up raspberry pi device
 
 ## install headless raspi 
 * download https://www.raspberrypi.org/software/
@@ -26,6 +26,5 @@ set up raspberry pi with ansible playbooks
 
 ## deploy ansible playbooks
 * git pull https://github.com/ettenauer/raspi-ansible
-* navigate to folder
 * verify connectivity via -> ansible all -i devices -u pi -m ping 
 * ansible-playbook -i device simple.yaml
