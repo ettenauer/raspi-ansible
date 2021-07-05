@@ -21,7 +21,7 @@ ansible playbooks to set up raspberry pi device
 * python3 -m pip install ansible
 
 ## configure hosts and SSH for deployment
-* update device, set hosts with ansible_ssh_private_key_file location (ssh key used for headless setup)
+* update device (https://github.com/ettenauer/raspi-ansible/blob/main/devices), set hosts with ansible_ssh_private_key_file location (ssh key used for headless setup)
 * use .pem key format as reference for private key
 
 ## deploy ansible playbooks
