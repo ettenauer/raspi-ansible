@@ -1,9 +1,13 @@
 ---
-- name: install pigpio
+- name: apt-get install python3
   become: true
-  pip:
-    name: pigpio
-    executable: pip3
+  apt:
+    update_cache: yes
+    state: present
+    pkg:
+    - pigpio
+    - python-pigpio
+    - python3-pigpio
 
 - name: configure pigpiod 
   become: true
