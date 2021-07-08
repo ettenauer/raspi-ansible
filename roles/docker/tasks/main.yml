@@ -33,10 +33,6 @@
 - name: change permission
   become: true
   shell: "usermod -aG docker {{ docker_user }}"
-
-- name: refresh permission
-  become: true
-  shell: "newgroup docker"
       
 - name: install pip
   become: true
