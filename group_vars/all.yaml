@@ -3,6 +3,7 @@
 docker_install_url: "https://get.docker.com"
 docker_tmpdir: "{{ temp_dir.path }}/docker_install"
 docker_bashrc: "{{ ansible_user_dir }}/.bash_profile"
+docker_user: pi
 
 # docker daemon install settings
 docker_dir: "/etc/docker"

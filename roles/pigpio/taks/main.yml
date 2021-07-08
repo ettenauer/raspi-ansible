@@ -1,0 +1,14 @@
+---
+- name: install pigpio
+  become: true
+  pip:
+    name: pigpio
+    executable: pip3
+
+- name: configure pigpiod 
+  become: true
+  shell: "systemctl enable pigpiod"
+
+- name: start pigpiod 
+  become: true
+  shell: "systemctl start pigpiod"

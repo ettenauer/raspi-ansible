@@ -1,0 +1,11 @@
+---
+- name: Install devices with all required software to run DHT22 sensor on raspberry pi
+  remote_user: pi
+  hosts: all
+
+  roles:
+    - python3
+    - pigpio
+    - os_upgrade
+    - docker
+
